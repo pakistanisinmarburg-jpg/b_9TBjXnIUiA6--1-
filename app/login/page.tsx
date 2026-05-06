@@ -1,118 +1,81 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Loader2 } from "lucide-react"
+import { useState } from 'react';
+import { supabaseClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-export default function LoginPage() {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    
-    // Simulate login - replace with actual auth
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    
-    router.push("/")
-    setIsLoading(false)
-  }
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      router.push('/');           // Go to home after login
+      router.refresh();
+    }
+    setLoading(false);
+  };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Hero Image */}
-      <div className="relative h-48 bg-primary/10">
-        <Image
-          src="/images/marburg-hero.jpg"
-          alt="Marburg"
-          fill
-          className="object-cover opacity-80"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
-      </div>
-
-      {/* Login Form */}
-      <div className="flex-1 px-6 py-8 -mt-8 relative">
-        <div className="max-w-sm mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-foreground mb-2">
-              Welcome Back
-            </h1>
-            <p className="text-muted-foreground">
-              Sign in to continue to MarburgConnect
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                required
-                className="h-12"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                required
-                className="h-12"
-              />
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full h-12 text-base"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                "Login"
-              )}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              {"Don't have an account? "}
-              <Link
-                href="/signup"
-                className="font-medium text-primary hover:underline"
-              >
-                Create Account
-              </Link>
-            </p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-white px-4">
+      <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-xl">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-green-700">MarburgConnect</h1>
+          <p className="text-gray-600 mt-2">Welcome back to the community</p>
         </div>
+
+        <form onSubmit={handleLogin} className="space-y-6">
+          {error && <p className="text-red-500 text-center bg-red-50 p-3 rounded-xl">{error}</p>}
+
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-green-500"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-green-500"
+            required
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-4 rounded-2xl transition"
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
+
+        <p className="text-center mt-6 text-gray-600">
+          Don't have an account?{' '}
+          <Link href="/signup" className="text-green-600 font-medium hover:underline">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
-  )
+  );
 }
