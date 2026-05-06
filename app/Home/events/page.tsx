@@ -4,7 +4,7 @@ export default function FeaturePage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <Link href="/home" className="text-green-600 underline mb-4 inline-block">
-        ← Back to Dashboard
+  ← Back to Dashboard
       </Link>
       
       <h1 className="text-3xl font-bold text-green-700 mb-6">
