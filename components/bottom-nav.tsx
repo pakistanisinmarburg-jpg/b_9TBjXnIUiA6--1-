@@ -1,42 +1,27 @@
-"use client"
-
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Home, Users, Calendar, MessageCircle, User } from "lucide-react"
-import { cn } from "@/lib/utils"
+import Link from 'next/link'
 
 const navItems = [
-  { href: "/", icon: Home, label: "Home" },
-  { href: "/groups", icon: Users, label: "Groups" },
-  { href: "/calendar", icon: Calendar, label: "Calendar" },
-  { href: "/messages", icon: MessageCircle, label: "Messages" },
-  { href: "/profile", icon: User, label: "Profile" },
+  { href: '/home', label: 'Home', icon: '🏠' },
+  { href: '/groups', label: 'Groups', icon: '👥' },
+  { href: '/calendar', label: 'Calendar', icon: '🗓️' },
+  { href: '/messages', label: 'Messages', icon: '💬' },
+  { href: '/profile', label: 'Profile', icon: '👤' },
 ]
 
-export function BottomNav() {
-  const pathname = usePathname()
-
+export default function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
-      <div className="max-w-md mx-auto flex items-center justify-around py-2">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors",
-                isActive
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              <span className="text-xs font-medium">{item.label}</span>
-            </Link>
-          )
-        })}
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto grid max-w-md grid-cols-5 px-2 py-2">
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex flex-col items-center justify-center gap-1 py-1 text-gray-500 hover:text-green-600"
+          >
+            <span className="text-2xl leading-none">{item.icon}</span>
+            <span className="text-xs font-medium">{item.label}</span>
+          </Link>
+        ))}
       </div>
     </nav>
   )
