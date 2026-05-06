@@ -1,43 +1,28 @@
-import Link from "next/link"
-import type { LucideIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import Link from 'next/link'
 
-interface QuickActionCardProps {
+type QuickActionCardProps = {
   href: string
-  icon: LucideIcon
-  label: string
-  iconColor?: string
-  iconBgColor?: string
-  highlight?: boolean
+  title: string
+  icon: string
+  iconBg: string
+  iconText: string
 }
 
-export function QuickActionCard({
+export default function QuickActionCard({
   href,
-  icon: Icon,
-  label,
-  iconColor = "text-primary",
-  iconBgColor = "bg-primary/10",
-  highlight = false,
+  title,
+  icon,
+  iconBg,
+  iconText,
 }: QuickActionCardProps) {
   return (
-    <Link
-      href={href}
-      className={cn(
-        "flex flex-col items-center gap-3 p-4 rounded-2xl border bg-card transition-all hover:shadow-md hover:scale-[1.02]",
-        highlight && "border-destructive/30"
-      )}
-    >
-      <div
-        className={cn(
-          "flex items-center justify-center w-12 h-12 rounded-xl",
-          iconBgColor
-        )}
-      >
-        <Icon className={cn("h-6 w-6", iconColor)} />
+    <Link href={href} className="block">
+      <div className="flex h-full min-h-[160px] flex-col items-center justify-center rounded-3xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+        <div className={`mb-4 flex h-16 w-16 items-center justify-center rounded-2xl ${iconBg}`}>
+          <span className={`text-3xl ${iconText}`}>{icon}</span>
+        </div>
+        <p className="text-center text-lg font-semibold text-gray-900">{title}</p>
       </div>
-      <span className="text-sm font-medium text-card-foreground text-center">
-        {label}
-      </span>
     </Link>
   )
 }
