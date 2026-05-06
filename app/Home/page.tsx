@@ -1,40 +1,46 @@
 import { supabaseServer } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import LogoutButton from '@/components/logout-button'
 
 export default async function AppHome() {
   const supabase = await supabaseServer()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  // 🔒 Protect route
   if (!user) {
     redirect('/login')
   }
 
+  // A list of your features. This makes it easy to add more later!
+  const features = [
+    { name: 'Housing', path: '/app/housing', icon: '🏠' },
+    { name: 'Jobs', path: '/app/jobs', icon: '💼' },
+    { name: 'Market', path: '/app/market', icon: '🛒' },
+    { name: 'Questions', path: '/app/questions', icon: '❓' },
+    { name: 'Events', path: '/app/events', icon: '📅' },
+    { name: 'Report', path: '/app/report', icon: '🚨' },
+  ]
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-2xl font-bold text-green-700 mb-4">
-        Welcome to MarburgConnect 🎉
+        MarburgConnect 🎉
       </h1>
+      <p className="mb-6 text-gray-600">Logged in as: {user.email}</p>
 
-      <p className="mb-6 text-gray-600">
-        Logged in as: {user.email}
-      </p>
-
-      {/* 🔴 Logout Button */}
       <LogoutButton />
 
-      {/* 🟢 Main Features Grid */}
-      <div className="grid grid-cols-2 gap-4 mt-6">
-        <div className="p-4 bg-white rounded-xl shadow">🏠 Housing</div>
-        <div className="p-4 bg-white rounded-xl shadow">💼 Jobs</div>
-        <div className="p-4 bg-white rounded-xl shadow">🛒 Market</div>
-        <div className="p-4 bg-white rounded-xl shadow">❓ Questions</div>
-        <div className="p-4 bg-white rounded-xl shadow">📅 Events</div>
-        <div className="p-4 bg-red-100 rounded-xl shadow">🚨 Report</div>
+      <div className="grid grid-cols-2 gap-4 mt-8">
+        {features.map((feature) => (
+          <Link 
+            key={feature.name} 
+            href={feature.path}
+            className="p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 flex flex-col items-center justify-center gap-2"
+          >
+            <span className="text-3xl">{feature.icon}</span>
+            <span className="font-semibold text-gray-700">{feature.name}</span>
+          </Link>
+        ))}
       </div>
     </div>
   )
