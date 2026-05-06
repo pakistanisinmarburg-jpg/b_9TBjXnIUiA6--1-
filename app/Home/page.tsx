@@ -13,12 +13,12 @@ export default async function AppHome() {
 
   // A list of your features. This makes it easy to add more later!
   const features = [
-    { name: 'Housing', path: '/app/housing', icon: '🏠' },
-    { name: 'Jobs', path: '/app/jobs', icon: '💼' },
-    { name: 'Market', path: '/app/market', icon: '🛒' },
-    { name: 'Questions', path: '/app/questions', icon: '❓' },
-    { name: 'Events', path: '/app/events', icon: '📅' },
-    { name: 'Report', path: '/app/report', icon: '🚨' },
+    { name: 'Housing', path: '/home/housing', icon: '🏠' },
+    { name: 'Jobs', path: '/home/jobs', icon: '💼' },
+    { name: 'Market', path: '/home/market', icon: '🛒' },
+    { name: 'Questions', path: '/home/questions', icon: '❓' },
+    { name: 'Events', path: '/home/events', icon: '📅' },
+    { name: 'Report', path: '/home/report', icon: '🚨' },
   ]
 
   return (
