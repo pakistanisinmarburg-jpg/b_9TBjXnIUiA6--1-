@@ -8,7 +8,7 @@ export default function FeaturePage() {
       </Link>
       
       <h1 className="text-3xl font-bold text-green-700 mb-6">
-        Feature Name (e.g., Housing)
+        Feature Name (e.g., housing)
       </h1>
       
       <div className="bg-white p-6 rounded-xl shadow-sm">
