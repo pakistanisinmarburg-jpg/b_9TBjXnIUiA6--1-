@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import BottomNav from '../components/BottomNav';
 
 export default function Home() {
   return (
@@ -27,8 +26,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      <BottomNav />
     </div>
   );
 }
