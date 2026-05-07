@@ -1,82 +1,56 @@
-'use client';
+'use client'
+import { useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
-import { useState, useEffect } from 'react';
-import { supabaseClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+export default function LoginPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const supabase = createClient()
 
-export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const router = useRouter();
-
-  useEffect(() => {
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      if (session) router.push('/');
-    });
-  }, [router]);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    const { error } = await supabaseClient.auth.signInWithPassword({ 
-      email, 
-      password 
-    });
-
-    if (error) setError(error.message);
-    else router.push('/');
-    
-    setLoading(false);
-  };
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true); setError('')
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) { setError(error.message); setLoading(false) }
+    else router.push('/home')
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-green-700">MarburgConnect</h1>
-          <p className="text-gray-600 mt-2">Connect. Belong. Thrive.</p>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-[var(--bg)]">
+      <div className="w-full max-w-sm">
+        <h1 className="text-3xl font-bold text-[var(--green)] mb-1">MarburgConnect</h1>
+        <p className="text-gray-500 mb-8">Connect. Belong. Thrive.</p>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          {error && <p className="text-red-500 text-center bg-red-50 p-4 rounded-2xl">{error}</p>}
-
-          <input
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-green-600"
-            required
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-green-600"
-            required
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-2xl transition-all disabled:opacity-70"
-          >
-            {loading ? 'Logging in...' : 'Login'}
+        <form onSubmit={handleLogin} className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
+          <div>
+            <label className="text-sm font-medium text-gray-700 block mb-1">Email</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--green)]"
+              placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 block mb-1">Password</label>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--green)]"
+              placeholder="••••••••" required />
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button type="submit" disabled={loading}
+            className="w-full bg-[var(--green)] text-white rounded-xl py-3 font-semibold text-sm disabled:opacity-60">
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <p className="text-center mt-8 text-gray-600">
-          Don't have an account?{' '}
-          <Link href="/signup" className="text-green-600 font-medium">Sign up</Link>
+        <p className="text-center text-sm text-gray-500 mt-4">
+          No account?{' '}
+          <Link href="/register" className="text-[var(--green)] font-semibold">Register</Link>
         </p>
       </div>
     </div>
-  );
+  )
 }
