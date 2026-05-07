@@ -1,7 +1,7 @@
 'use client';
 
-import BottomNav from '@/components/BottomNav';
 import Link from 'next/link';
+import BottomNav from '@/components/BottomNav';
 
 const myGroups = [
   { name: "International Marburg", members: "1250", image: "🌍" },
@@ -77,6 +77,7 @@ export default function GroupsPage() {
         <Link href="/calendar" className="text-gray-400">📅</Link>
         <Link href="/messages" className="text-gray-400">💬</Link>
         <Link href="/profile" className="text-gray-400">👤</Link>
+        
         <BottomNav />
         </div>
     </div>

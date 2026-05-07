@@ -1,9 +1,9 @@
 'use client';
 
-import BottomNav from '@/components/BottomNav';
 import { useEffect, useState } from 'react';
 import { supabaseClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import BottomNav from '@/components/BottomNav';
 
 export default function Profile() {
   const [user, setUser] = useState<any>(null);
@@ -86,6 +86,7 @@ export default function Profile() {
         <a href="/calendar" className="text-gray-400">📅</a>
         <a href="/messages" className="text-gray-400">💬</a>
         <a href="/profile" className="text-green-600">👤</a>
+       
         <BottomNav />
       </div>
     </div>
