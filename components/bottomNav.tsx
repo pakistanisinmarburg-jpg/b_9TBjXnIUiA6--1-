@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
-  { href: '/', label: 'Home', icon: '🏠' },
-  { href: '/groups', label: 'Groups', icon: '👥' },
-  { href: '/calendar', label: 'Calendar', icon: '📅' },
-  { href: '/messages', label: 'Messages', icon: '💬' },
-  { href: '/profile', label: 'Profile', icon: '👤' },
+  { href: '/', icon: '🏠', label: 'Home' },
+  { href: '/groups', icon: '👥', label: 'Groups' },
+  { href: '/calendar', icon: '📅', label: 'Calendar' },
+  { href: '/messages', icon: '💬', label: 'Messages' },
+  { href: '/profile', icon: '👤', label: 'Profile' },
 ];
 
 export default function BottomNav() {
