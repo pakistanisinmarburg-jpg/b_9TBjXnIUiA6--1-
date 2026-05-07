@@ -1,6 +1,6 @@
 "use client"
 
-import { BottomNav } from "./bottom-nav"
+import { BottomNav } from "./bottomNav"
 
 interface AppShellProps {
   children: React.ReactNode

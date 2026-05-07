@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import LogoutButton from '@/components/logout-button'
 import QuickActionCard from '@/components/quick-action-card'
-import BottomNav from '@/components/bottom-nav'
+import BottomNav from '@/components/bottomNav'
 
 const quickActions = [
   {
