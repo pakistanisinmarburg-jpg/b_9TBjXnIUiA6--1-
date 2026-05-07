@@ -1,62 +1,41 @@
-import Image from "next/image"
-import Link from "next/link"
-import { MapPin } from "lucide-react"
-import { cn } from "@/lib/utils"
+export default function EventCard({ event }: any) {
 
-interface EventCardProps {
-  id: string
-  title: string
-  date: string
-  location: string
-  image: string
-  tag?: string
-  tagColor?: string
-}
-
-export function EventCard({
-  id,
-  title,
-  date,
-  location,
-  image,
-  tag,
-  tagColor = "bg-primary",
-}: EventCardProps) {
   return (
-    <Link
-      href={`/events/${id}`}
-      className="flex-shrink-0 w-44 rounded-2xl overflow-hidden bg-card border border-border shadow-sm hover:shadow-md transition-shadow"
-    >
-      <div className="relative h-24">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-cover"
-        />
-        <div className="absolute top-2 left-2 bg-card/90 backdrop-blur-sm rounded-lg px-2 py-1">
-          <span className="text-xs font-semibold text-foreground">{date}</span>
-        </div>
-        {tag && (
-          <div
-            className={cn(
-              "absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-medium text-white",
-              tagColor
-            )}
-          >
-            {tag}
-          </div>
-        )}
+
+    <div className="rounded-2xl overflow-hidden shadow bg-white">
+
+      <img
+
+        src={event.image_url}
+
+        className="h-48 w-full object-cover"
+
+      />
+
+
+
+      <div className="p-4">
+
+        <h2 className="font-bold text-lg">{event.title}</h2>
+
+
+
+        <p className="text-gray-500">{event.location}</p>
+
+
+
+        <p className="text-sm mt-2">
+
+          {new Date(event.event_date).toLocaleDateString()}
+
+        </p>
+
       </div>
-      <div className="p-3">
-        <h3 className="font-semibold text-sm text-card-foreground line-clamp-2 mb-1">
-          {title}
-        </h3>
-        <div className="flex items-center gap-1 text-muted-foreground">
-          <MapPin className="h-3 w-3" />
-          <span className="text-xs truncate">{location}</span>
-        </div>
-      </div>
-    </Link>
+
+    </div>
+
   )
+
 }
+
+

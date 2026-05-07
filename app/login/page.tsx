@@ -1,81 +1,107 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { supabaseClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
-export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+import { useState } from 'react'
 
-    const { error } = await supabaseClient.auth.signInWithPassword({
+import { supabase } from '@/lib/supabase'
+
+
+
+export default function LoginPage() {
+
+  const [email, setEmail] = useState('')
+
+  const [password, setPassword] = useState('')
+
+
+
+  const login = async () => {
+
+    await supabase.auth.signInWithPassword({
+
       email,
-      password,
-    });
 
-    if (error) {
-      setError(error.message);
-    } else {
-      router.push('/Home');           // Go to home after login
-      router.refresh();
-    }
-    setLoading(false);
-  };
+      password,
+
+    })
+
+  }
+
+
+
+  const signup = async () => {
+
+    await supabase.auth.signUp({
+
+      email,
+
+      password,
+
+    })
+
+  }
+
+
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-white px-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-xl">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-green-700">MarburgConnect</h1>
-          <p className="text-gray-600 mt-2">Welcome back to the community</p>
-        </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          {error && <p className="text-red-500 text-center bg-red-50 p-3 rounded-xl">{error}</p>}
+    <div className="p-6 max-w-md mx-auto space-y-4">
 
-          <input
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-green-500"
-            required
-          />
+      <input
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-green-500"
-            required
-          />
+        className="border p-3 w-full"
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-4 rounded-2xl transition"
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
+        placeholder="Email"
 
-        <p className="text-center mt-6 text-gray-600">
-          Don't have an account?{' '}
-          <Link href="/signup" className="text-green-600 font-medium hover:underline">
-            Sign up
-          </Link>
-        </p>
-      </div>
+        onChange={(e) => setEmail(e.target.value)}
+
+      />
+
+
+
+      <input
+
+        type="password"
+
+        className="border p-3 w-full"
+
+        placeholder="Password"
+
+        onChange={(e) => setPassword(e.target.value)}
+
+      />
+
+
+
+      <button
+
+        className="bg-green-700 text-white p-3 w-full rounded"
+
+        onClick={login}
+
+      >
+
+        Login
+
+      </button>
+
+
+
+      <button
+
+        className="border p-3 w-full rounded"
+
+        onClick={signup}
+
+      >
+
+        Signup
+
+      </button>
+
     </div>
-  );
+
+  )
+
 }

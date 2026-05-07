@@ -1,46 +1,129 @@
-import { supabaseServer } from '@/utils/supabase/server'
-import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
+
+import EventCard from '@/components/EventCard'
+
+import CommunityCard from '@/components/CommunityCard'
+
+import BottomNav from '@/components/BottomNav'
+
+
 
 export default async function HomePage() {
-  const supabase = await supabaseServer()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: events } = await supabase
+
+    .from('events')
+
+    .select('*')
+
+    .limit(5)
+
+
+
+  const { data: communities } = await supabase
+
+    .from('communities')
+
+    .select('*')
+
+    .limit(6)
+
+
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-green-700 mb-6">
-        MarburgConnect
-      </h1>
 
-      {!user ? (
-        <div className="space-y-4">
-          <p>You are not logged in</p>
+    <div className="p-4 pb-28 space-y-6">
 
-          <Link href="/login">
-            <button className="bg-green-600 text-white px-6 py-3 rounded-xl">
-              Login
-            </button>
-          </Link>
+      <div
 
-          <Link href="/signup">
-            <button className="border px-6 py-3 rounded-xl">
-              Signup
-            </button>
-          </Link>
+        className="h-64 rounded-3xl bg-cover bg-center p-6 text-white flex items-end"
+
+        style={{
+
+          backgroundImage:
+
+            "url('/hero.jpg')",
+
+        }}
+
+      >
+
+        <div>
+
+          <h1 className="text-3xl font-bold">
+
+            Pakistanis in Marburg
+
+          </h1>
+
+
+
+          <p>Connect. Belong. Thrive.</p>
+
         </div>
-      ) : (
-        <div className="space-y-4">
-          <p>✅ Logged in as: {user.email}</p>
 
-          <Link href="/home">
-            <button className="bg-green-600 text-white px-6 py-3 rounded-xl">
-              Go to App
-            </button>
-          </Link>
+      </div>
+
+
+
+      <div>
+
+        <h2 className="text-2xl font-bold mb-4">
+
+          Upcoming Events
+
+        </h2>
+
+
+
+        <div className="grid gap-4">
+
+          {events?.map((event) => (
+
+            <EventCard key={event.id} event={event} />
+
+          ))}
+
         </div>
-      )}
+
+      </div>
+
+
+
+      <div>
+
+        <h2 className="text-2xl font-bold mb-4">
+
+          Active Communities
+
+        </h2>
+
+
+
+        <div className="grid grid-cols-2 gap-4">
+
+          {communities?.map((community) => (
+
+            <CommunityCard
+
+              key={community.id}
+
+              community={community}
+
+            />
+
+          ))}
+
+        </div>
+
+      </div>
+
+
+
+      <BottomNav />
+
     </div>
+
   )
+
 }
