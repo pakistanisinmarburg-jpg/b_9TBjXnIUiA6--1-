@@ -22,9 +22,7 @@ export default function BottomNav() {
             key={item.href}
             href={item.href}
             className={`flex flex-col items-center text-2xl transition-all ${
-              pathname === item.href 
-                ? 'text-green-600 scale-110' 
-                : 'text-gray-400 hover:text-gray-600'
+              pathname === item.href ? 'text-green-600 scale-110' : 'text-gray-400 hover:text-gray-600'
             }`}
           >
             <span>{item.icon}</span>
