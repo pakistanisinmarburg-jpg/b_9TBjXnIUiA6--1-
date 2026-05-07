@@ -1,5 +1,6 @@
 'use client';
 
+import BottomNav from '@/components/BottomNav';
 import Link from 'next/link';
 
 const conversations = [
@@ -85,6 +86,7 @@ export default function MessagesPage() {
         <Link href="/calendar" className="text-gray-400">📅</Link>
         <Link href="/messages" className="text-green-600">💬</Link>
         <Link href="/profile" className="text-gray-400">👤</Link>
+        <BottomNav />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import BottomNav from '@/components/BottomNav';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { supabaseClient } from '@/utils/supabase/client';
@@ -119,6 +120,7 @@ export default function Home() {
           <Link href="/calendar" className="text-gray-400 hover:text-gray-600">📅</Link>
           <Link href="/messages" className="text-gray-400 hover:text-gray-600">💬</Link>
           <Link href="/profile" className="text-gray-400 hover:text-gray-600">👤</Link>
+          <BottomNav />
         </div>
       </div>
     </div>
