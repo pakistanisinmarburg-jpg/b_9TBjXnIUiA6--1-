@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabaseClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -12,19 +12,25 @@ export default function Login() {
   const [error, setError] = useState('');
   const router = useRouter();
 
+  useEffect(() => {
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      if (session) router.push('/');
+    });
+  }, [router]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    const { error } = await supabaseClient.auth.signInWithPassword({ 
+      email, 
+      password 
+    });
 
-    if (error) {
-      setError(error.message);
-    } else {
-      router.push('/');
-      router.refresh();
-    }
+    if (error) setError(error.message);
+    else router.push('/');
+    
     setLoading(false);
   };
 
@@ -60,7 +66,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-2xl transition-all"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-2xl transition-all disabled:opacity-70"
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
